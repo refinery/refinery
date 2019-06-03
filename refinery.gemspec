@@ -12,8 +12,14 @@ Gem::Specification.new do |s|
   s.licenses          = ['Apache-2.0']
   s.require_paths     = %w[lib]
 
-  s.files             = `git ls-files -- lib/*`.split("\n")
+  s.files = `git ls-files -z -- lib/* system/* LICENSE readme.md`.split("\x0")
 
+  s.add_dependency    'i18n'
+  s.add_dependency    'dry-initializer', '~> 3.0'
+  s.add_dependency    'dry-matcher', '~> 0.7'
+  s.add_dependency    'dry-monads', '~> 1.2'
+  s.add_dependency    'dry-web-roda', '~> 0.12'
+  s.add_dependency    'rack_csrf', '~> 2.6'
   s.add_dependency    'rom', '~> 5.0'
   s.required_ruby_version = '>= 2.6.3'
 
