@@ -10,7 +10,6 @@ module Refinery
     configure do |config|
       config.root = Pathname(File.expand_path('../../', __dir__)).freeze
       config.default_namespace = 'refinery'
-      # config.auto_register = %w[lib]
     end
 
     load_paths! 'lib'
