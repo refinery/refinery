@@ -20,24 +20,24 @@ module Refinery
       end
     end
 
-    def plugin_css(plugin)
-      return nil unless type_exists?('css', plugin)
+    def plugin_css(plugin, subfolder = plugin)
+      return nil unless type_exists?('css', plugin, subfolder)
 
-      self["#{plugin}__#{plugin}.css"]
+      self["#{plugin}__#{subfolder}.css"]
     end
 
-    def plugin_js(plugin)
-      return nil unless type_exists?('js', plugin)
+    def plugin_js(plugin, subfolder = plugin)
+      return nil unless type_exists?('js', plugin, subfolder)
 
-      self["#{plugin}__#{plugin}.js"]
+      self["#{plugin}__#{subfolder}.js"]
     end
 
     private
 
     attr_writer :core, :root, :precompiled, :precompiled_host, :server_url
 
-    def asset_dir(type, plugin)
-      "apps/#{plugin}/assets/#{plugin}/#{type}"
+    def asset_dir(type, plugin, subfolder)
+      "apps/#{plugin}/assets/#{subfolder}/#{type}"
     end
 
     def asset_path_from_manifest(asset)
@@ -48,18 +48,18 @@ module Refinery
       "#{server_url}/assets/#{asset}"
     end
 
-    def exists?(asset, plugin = '*', type = nil)
+    def exists?(asset, plugin = '*', subfolder = plugin, type = nil)
       return manifest[asset] if precompiled
 
       type ||= File.extname(asset).delete('.')
-      File.exist?(File.join(asset_dir(type, plugin), asset))
+      File.exist?(File.join(asset_dir(type, plugin, subfolder), asset))
     end
 
-    def type_exists?(type, plugin)
+    def type_exists?(type, plugin, subfolder)
       if precompiled
-        manifest.any? { |key, _| key.end_with?("#{plugin}.#{type}") }
+        manifest.any? { |key, _| key.end_with?("#{plugin}__#{subfolder}.#{type}") }
       else
-        Dir.exist?(asset_dir(type, plugin))
+        Dir.exist?(asset_dir(type, plugin, subfolder))
       end
     end
 
