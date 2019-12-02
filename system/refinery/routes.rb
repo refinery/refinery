@@ -10,10 +10,14 @@ module Refinery
 
     class Module < ::Module
       # rubocop:disable Metrics/MethodLength
-      def initialize(resolver_class)
+      def initialize(resolver_class, i18n_scope:)
         singleton_class.define_method :included do |base|
           base.route do |r|
-            resolver ||= resolver_class.new(self, route: r)
+            resolver ||= resolver_class.new(
+              self,
+              i18n_scope: i18n_scope,
+              route: r
+            )
 
             resolver.new_action
 
@@ -38,8 +42,8 @@ module Refinery
   end
 
   # rubocop:disable Naming/MethodName
-  def self.Routes(resolver: Routes::Resolver)
-    Routes::Module.new(resolver)
+  def self.Routes(i18n_scope: nil, resolver: Routes::Resolver)
+    Routes::Module.new(resolver, i18n_scope: i18n_scope)
   end
   # rubocop:enable Naming/MethodName
 end

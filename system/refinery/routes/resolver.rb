@@ -7,15 +7,15 @@ module Refinery
     class Resolver
       extend Forwardable
 
-      attr_accessor :web, :friendly, :node, :route, :route_finder
+      attr_accessor :web, :i18n_scope, :node, :route, :route_finder
 
-      def initialize(web, route:, route_finder: nil, node: nil, friendly: nil)
+      def initialize(web, i18n_scope: nil, route:, route_finder: nil, node: nil)
         self.web = web
+        self.i18n_scope = i18n_scope || web.i18n_scope
         self.route_finder = route_finder || method(:root_path)
         self.node = node || Dry::Core::Inflector.underscore(
           Dry::Core::Inflector.singularize(web.class.name.split('::').first)
         ).freeze
-        self.friendly = friendly || self.node.to_s.tr('_', ' ').capitalize
         self.route = route
       end
 
@@ -33,7 +33,7 @@ module Refinery
           r.resolve 'operations.create' do |create|
             create.call(r[node]) do |m|
               m.success do
-                flash[:notice] = "#{friendly} created"
+                flash[:notice] = I18n.t('created', scope: i18n_scope)
                 r.redirect route_finder.call(r)
               end
 
@@ -64,12 +64,12 @@ module Refinery
           r.resolve 'operations.delete' do |delete|
             delete.call(id) do |m|
               m.success do
-                flash[:notice] = "#{friendly} deleted"
+                flash[:notice] = I18n.t('deleted', scope: i18n_scope)
                 r.redirect route_finder.call(r)
               end
 
               m.failure do
-                flash[:alert] = "#{friendly} not deleted"
+                flash[:alert] = I18n.t('not_deleted', scope: i18n_scope)
                 r.redirect route_finder.call(r)
               end
             end
@@ -82,7 +82,7 @@ module Refinery
           r.resolve 'operations.update' do |update|
             update.call(id, r[node]) do |m|
               m.success do
-                flash[:notice] = "#{friendly} updated"
+                flash[:notice] = I18n.t('updated', scope: i18n_scope)
                 r.redirect route_finder.call(r)
               end
 
