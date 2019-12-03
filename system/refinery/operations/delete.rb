@@ -10,7 +10,6 @@ module Refinery
       include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
       include Dry::Monads::Result::Mixin
 
-      # This is a soft delete..
       def call(id)
         deleted = delete!(id)
         if deleted?(deleted)
