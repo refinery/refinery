@@ -2,6 +2,7 @@
 
 require 'dry/core/inflector'
 require 'forwardable'
+
 module Refinery
   module Routes
     class Resolver
@@ -94,9 +95,18 @@ module Refinery
         end
       end
 
-      def with_key
+      def member
         r.on String do |id|
-          yield id
+          member_actions(id)
+        end
+      end
+
+      def member_actions(id)
+        edit_action(id)
+        delete_action(id)
+        update_action(id)
+        r.is do
+          show_action(id)
         end
       end
 
