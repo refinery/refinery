@@ -21,14 +21,7 @@ module Refinery
 
             resolver.new_action
 
-            resolver.with_key do |key|
-              resolver.edit_action(key)
-              resolver.delete_action(key)
-              resolver.update_action(key)
-              r.is do
-                resolver.show_action(key)
-              end
-            end
+            resolver.member
 
             r.is do
               resolver.index_action
