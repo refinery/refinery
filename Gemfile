@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'hanami', git: 'https://github.com/hanami/hanami', branch: 'unstable'
+
 group :development do
   gem 'irb'
 end

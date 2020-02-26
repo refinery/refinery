@@ -13,7 +13,7 @@ module Refinery
     option :name
     option :hide_from_menu, optional: true, default: -> { false }
     option :url
-    option :pathname, optional: true, default: -> {
+    option :pathname, optional: true, default: lambda {
       app.load_paths.find { |path| path.basename.to_s == 'lib' }
     }
 

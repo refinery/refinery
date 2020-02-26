@@ -1,6 +1,8 @@
-require "refinery"
+# frozen_string_literal: true
+
+require 'refinery'
 
 Refinery::Container.finalize!
 
-require "irb"
+require 'irb'
 IRB.start
