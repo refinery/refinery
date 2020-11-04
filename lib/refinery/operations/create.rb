@@ -11,16 +11,20 @@ module Refinery
       include Dry::Monads::Result::Mixin
 
       def call(attributes)
-        validation = form.call(permitted_attributes(attributes))
+        validation = validate(permitted_attributes(attributes))
 
         if validation.success?
-          Success(repo.create(validation.to_h))
+          Success(create(validation.to_h))
         else
           Failure(validation)
         end
       end
 
       private
+
+      def create(attributes)
+        repo.create(attributes)
+      end
 
       def form
         raise NotImplementedError
@@ -32,6 +36,10 @@ module Refinery
 
       def repo
         raise NotImplementedError
+      end
+
+      def validate(attributes)
+        form.call(attributes)
       end
     end
   end
