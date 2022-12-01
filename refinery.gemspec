@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency    'dry-initializer', '~> 3.0'
   s.add_dependency    'dry-matcher', '~> 0.7'
   s.add_dependency    'dry-monads', '~> 1.2'
-  s.add_dependency    'dry-system', '~> 0.17'
+  s.add_dependency    'dry-system', '>= 0.17', '< 2.0'
   s.add_dependency    'dry-web-roda', '~> 0.12'
   s.add_dependency    'rack_csrf', '~> 2.6'
   s.add_dependency    'rom', '~> 5.0'
